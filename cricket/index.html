@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="cricket.css">
+</head>
+<body>
+    <h1 class="container">Bat Ball Stump Game</h1>
+    
+   <div class="container">
+    <button class="imgbutton" 
+     onclick="
+     let userChoice='bat';
+     let computerChoice=computerFunction();
+     let answer=getResult(userChoice,computerChoice);
+     printresult(userChoice,computerChoice,answer);
+     ">
+     <img src="images/bat.png" alt="bat image" class="imgContainer">
+   </button>
+
+    <button class="imgbutton"
+    onclick="
+    userChoice='ball';
+    computerChoice=computerFunction();
+    answer=getResult(userChoice,computerChoice);
+    printresult(userChoice,computerChoice,answer);
+    " >
+     <img src="images/ball.png" alt="ball image" class="imgContainer">
+   </button>
+
+    <button class="imgbutton"  
+        onclick="
+        userChoice='stump';
+       computerChoice=computerFunction();
+        answer=getResult(userChoice,computerChoice);
+        printresult(userChoice,computerChoice,answer);
+        ">
+          <img src="images/stump.png" alt="bat image" class="imgContainer">
+      </button>
+
+
+        <h3 id="user-choice"></h3>
+
+        <h3 id="computer-choice"></h3>
+        <h3 id="result"></h3>
+        <h3 id="score"></h3>
+        <button class="container" onclick="localStorage.clear(); resetStorage();">reset</button>
+
+    
+   </div>
+    
+
+
+   <script>
+              
+
+       let scoreStr=localStorage.getItem('score') ;
+       let score;
+       resetStorage(scoreStr);
+
+       function resetStorage(scoreStr){
+        score= scoreStr ? JSON.parse(scoreStr) : 
+       {
+         win:0,
+         loose:0,
+         tie:0,
+      }
+      printresult();
+   }
+
+        
+      
+      function printresult(userChoice,computerChoice,answer){
+         localStorage.setItem('score',JSON.stringify(score));
+
+         document.querySelector('#user-choice').innerText=userChoice?`you have choosen ${userChoice}`:'' ;
+         
+         document.querySelector('#computer-choice').innerText=computerChoice?`computer has choosen ${computerChoice}`:'' ;
+
+         document.querySelector('#result').innerText=answer? `${answer}`:'';
+         
+         document.querySelector('#score').innerText=`wins ${score.win} loose ${score.loose} tie ${score.tie}`;
+          
+      }
+
+      function getResult(userChoice , computerChoice ,answer){
+         if(userChoice=='bat'){
+            if(computerChoice===userChoice){
+               score.tie++;
+                return `it's a tie`;
+            
+               }
+             else if(computerChoice==='ball'){
+              score.win++;
+              return 'user won';
+               
+              }
+              else{
+              score.loose++;
+             return 'computer won';
+          
+              }
+         }
+         else if(userChoice == 'ball'){
+            if(computerChoice===userChoice){
+               score.tie++;
+                return `it's a tie`;
+            
+               }
+             else if(computerChoice==='bat'){
+              score.loose++;
+              return 'computer won';
+               
+              }
+              else{
+              score.win++;
+             return 'user win';
+          
+              }
+         }
+         else{
+            if(computerChoice===userChoice){
+               score.tie++;
+                return `it's a tie`;
+            
+               }
+             else if(computerChoice==='ball'){
+              score.loose++;
+              return 'computer won';
+               
+              }
+              else{
+              score.loose++;
+             return 'user won';
+          
+              }
+         }
+      }
+      function computerFunction(){
+         computerChoice=Math.random()*3; 
+         if (computerChoice>0 && computerChoice<=1){
+                return 'bat';
+         }
+          else if(computerChoice>1 && computerChoice<=2){
+                 return 'ball';
+         }
+          else{
+                 return 'stump';
+          }
+      }
+    
+       
+     
+
+    
+   </script>
+</body>
+</html>
